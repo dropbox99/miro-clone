@@ -42,7 +42,7 @@ export const SearchInput = () => {
     const url = qs.stringifyUrl({
       url: "/",
       query: {
-        Search: debouncedValue,
+        search: debouncedValue,
       }, 
     }, { skipEmptyString: true, skipNull: true});
 

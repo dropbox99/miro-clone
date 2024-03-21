@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/andreibrahim/Documents/portofolio/miro-clone/app/layout\":[\"static/media/c9a5bc6a7c948fb0-s.p.woff2\"],\"/Users/andreibrahim/Documents/portofolio/miro-clone/app/(dashboard)/layout\":[\"static/media/d869208648ca5469-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
