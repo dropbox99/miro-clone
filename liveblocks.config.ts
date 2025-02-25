@@ -6,6 +6,26 @@ const client = createClient({
   authEndpoint: "/api/liveblocks-auth",
 });
 
+type Presence = {
+
+};
+
+type Storage = {
+
+};
+
+type UserMeta = {
+  id?: string;
+  info?: {
+    name?: string;
+    picture?: string;
+  };
+};
+
+type RoomEvent = {
+
+};
+
 // Create the room context with your desired types
 export const {
   RoomProvider,
