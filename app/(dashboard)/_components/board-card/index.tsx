@@ -10,7 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 
 import { api } from "@/convex/_generated/api";
 import { Actions } from "@/components/actions";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
 import { Footer } from "./footer";

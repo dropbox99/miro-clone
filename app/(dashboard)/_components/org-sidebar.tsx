@@ -31,7 +31,7 @@ export const OrgSidebar = () => {
             "font-semibold text-2xl",
             font.className
           )}>
-            <i>Miro Clone</i>
+            <i>Slates</i>
           </span>
         </div>
       </Link>
