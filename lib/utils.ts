@@ -79,7 +79,7 @@ export function resizebounds(
   return result;
 }
 
-export function findIntersectiongLayerWithRectangle(
+export function findIntersectingLayerWithRectangle(
   layerIds: readonly string[],
   layers: ReadonlyMap<string, Layer>,
   a: Point,
@@ -101,7 +101,7 @@ export function findIntersectiongLayerWithRectangle(
       continue;
     }
 
-    const { x, y, width, height } = layer;
+    const { x, y, height, width } = layer;
 
     if (
       rect.x + rect.width > x &&

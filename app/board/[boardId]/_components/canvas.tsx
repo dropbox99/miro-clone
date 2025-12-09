@@ -3,30 +3,30 @@
 import React, { useCallback, useMemo, useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
-import { 
-  useHistory, 
-  useCanUndo, 
-  useCanRedo, 
-  useMutation, 
-  useStorage, 
-  useOthersMapped, 
+import {
+  useHistory,
+  useCanUndo,
+  useCanRedo,
+  useMutation,
+  useStorage,
+  useOthersMapped,
   useSelf
 } from "@/liveblocks.config";
-import { 
+import {
   colorToCss,
-  connectionIdToColor, 
-  findIntersectiongLayerWithRectangle, 
-  penPointsToPathLayer, 
-  pointerEventToCanvasPoint, 
+  connectionIdToColor,
+  findIntersectingLayerWithRectangle,
+  penPointsToPathLayer,
+  pointerEventToCanvasPoint,
   resizebounds
 } from "@/lib/utils";
-import { 
-  Camera, 
-  CanvasMode, 
-  CanvasState, 
-  Color, 
-  LayerType, 
-  Point, 
+import {
+  Camera,
+  CanvasMode,
+  CanvasState,
+  Color,
+  LayerType,
+  Point,
   Side,
   XYWH
 } from "@/types/canvas";
@@ -59,8 +59,8 @@ export const Canvas = ({
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None
   });
-  const [ camera, setCamera ] = useState<Camera>({ x: 0, y:0 });
-  const [ lastUsedColor, setLastUsedColor ] = useState<Color>({
+  const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
+  const [lastUsedColor, setLastUsedColor] = useState<Color>({
     r: 255,
     g: 255,
     b: 255
@@ -80,7 +80,7 @@ export const Canvas = ({
     if (liveLayers.size >= MAX_LAYERS) {
       return;
     }
-    
+
     const liveLayerIds = storage.get("layerIds");
     const layerId = nanoid();
     const layer = new LiveObject({
@@ -113,7 +113,7 @@ export const Canvas = ({
     }
 
     const liveLayers = storage.get("layers");
-    
+
     for (const id of self.presence.selection) {
       const layer = liveLayers.get(id);
 
@@ -144,7 +144,7 @@ export const Canvas = ({
     const layers = storage.get("layers").toImmutable();
     setCanvasState({ mode: CanvasMode.SelectionNet, origin, current });
 
-    const ids = findIntersectiongLayerWithRectangle(layerIds ?? [], layers, origin, current);
+    const ids = findIntersectingLayerWithRectangle(layerIds ?? [], layers, origin, current);
 
     setMyPresence({ selection: ids });
   }, [layerIds]);
@@ -167,18 +167,18 @@ export const Canvas = ({
 
     if (
       canvasState.mode !== CanvasMode.Pencil ||
-      e.button !== 1 ||
+      e.buttons !== 1 ||
       pencilDraft == null
     ) {
       return;
     }
 
-    setMyPresence({ 
+    setMyPresence({
       cursor: point,
-      pencilDraft: 
+      pencilDraft:
         pencilDraft.length === 1 &&
-        pencilDraft[0][0] === point.x &&
-        pencilDraft[0][1] === point.y
+          pencilDraft[0][0] === point.x &&
+          pencilDraft[0][1] === point.y
           ? pencilDraft
           : [...pencilDraft, [point.x, point.y, e.pressure]]
     });
@@ -220,7 +220,7 @@ export const Canvas = ({
     point: Point,
     pressure: number
   ) => {
-    setMyPresence({ 
+    setMyPresence({
       pencilDraft: [[point.x, point.y, pressure]],
       penColor: lastUsedColor
     });
@@ -267,7 +267,7 @@ export const Canvas = ({
     }));
   }, []);
 
-  const onPointerMove = useMutation(({ setMyPresence }, e: React.PointerEvent ) => {
+  const onPointerMove = useMutation(({ setMyPresence }, e: React.PointerEvent) => {
     e.preventDefault();
 
     const current = pointerEventToCanvasPoint(e, camera);
@@ -309,7 +309,7 @@ export const Canvas = ({
     }
 
     if (canvasState.mode === CanvasMode.Pencil) {
-      startDrawing(point, e.pressure); 
+      startDrawing(point, e.pressure);
       return;
     }
 
@@ -321,11 +321,11 @@ export const Canvas = ({
     startDrawing
   ]);
 
-  const onPointerUp = useMutation(({}, e) => {
+  const onPointerUp = useMutation(({ }, e) => {
     const point = pointerEventToCanvasPoint(e, camera);
 
     if (
-      canvasState.mode === CanvasMode.None || 
+      canvasState.mode === CanvasMode.None ||
       canvasState.mode === CanvasMode.Pressing
     ) {
       unselectLayers();
@@ -384,7 +384,7 @@ export const Canvas = ({
     const layerIdsToColorSelection: Record<string, string> = {};
 
     for (const user of selections) {
-      const [ connectionId, selection ] = user;
+      const [connectionId, selection] = user;
 
       for (const layerId of selection) {
         layerIdsToColorSelection[layerId] = connectionIdToColor(connectionId);
@@ -428,7 +428,7 @@ export const Canvas = ({
     >
       <Info boardId={boardId} />
       <Participants />
-      <Toolbar 
+      <Toolbar
         canvasState={canvasState}
         setCanvasState={setCanvasState}
         canUndo={canUndo}
@@ -436,11 +436,11 @@ export const Canvas = ({
         undo={history.undo}
         redo={history.redo}
       />
-      <SelectionTools 
+      <SelectionTools
         camera={camera}
         setLastUsedColor={setLastUsedColor}
       />
-      <svg 
+      <svg
         className="h-[100vh] w-[100vw]"
         onWheel={onWheel}
         onPointerMove={onPointerMove}
@@ -454,18 +454,18 @@ export const Canvas = ({
           }}
         >
           {layerIds?.map((layerId) => (
-            <LayerPreview 
+            <LayerPreview
               key={layerId}
               id={layerId}
               onLayerPointerDown={onLayerPointerDown}
               selectionColor={layerIdsToColorSelection[layerId]}
             />
           ))}
-          <SelectionBox 
+          <SelectionBox
             onResizeHandlePointerDown={onResizeHandlePointerDown}
           />
           {canvasState.mode === CanvasMode.SelectionNet && canvasState.current != null && (
-            <rect 
+            <rect
               className="fill-blue-500/5 stroke-blue-500 stroke-1"
               x={Math.min(canvasState.origin.x, canvasState.current.x)}
               y={Math.min(canvasState.origin.y, canvasState.current.y)}
@@ -475,11 +475,11 @@ export const Canvas = ({
           )}
           <CursorsPresence />
           {pencilDraft != null && pencilDraft.length > 0 && (
-            <Path 
-               points={pencilDraft}
-               fill={colorToCss(lastUsedColor)}
-               x={0}
-               y={0}
+            <Path
+              points={pencilDraft}
+              fill={colorToCss(lastUsedColor)}
+              x={0}
+              y={0}
             />
           )}
         </g>

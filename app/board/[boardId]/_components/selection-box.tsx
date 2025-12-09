@@ -14,11 +14,11 @@ const HANDLE_WIDTH = 8;
 export const SelectionBox = memo(({
   onResizeHandlePointerDown
 }: SelectionBoxProps) => {
-  const soleLayerId = useSelf((me) => 
-    me.presence.selection.length === 1 ? me.presence.selection[0]: null
+  const soleLayerId = useSelf((me) =>
+    me.presence.selection.length === 1 ? me.presence.selection[0] : null
   );
 
-  const isShowingHandle = useStorage((root) => 
+  const isShowingHandle = useStorage((root) =>
     soleLayerId && root.layers.get(soleLayerId)?.type !== LayerType.Path
   );
 
@@ -29,8 +29,8 @@ export const SelectionBox = memo(({
   }
   return (
     <>
-      <rect 
-        className="fill-transparent stroke-blue-500 stroke-1 pointer-event-none"
+      <rect
+        className="fill-transparent stroke-blue-500 stroke-1 pointer-events-none"
         style={{
           transform: `translate(${bounds.x}px, ${bounds.y}px)`
         }}
@@ -41,7 +41,7 @@ export const SelectionBox = memo(({
       />
       {isShowingHandle && (
         <>
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -61,7 +61,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -81,7 +81,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -101,7 +101,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -121,7 +121,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -141,7 +141,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -161,7 +161,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
@@ -181,7 +181,7 @@ export const SelectionBox = memo(({
             }}
           />
 
-          <rect 
+          <rect
             className="fill-white stroke-1 stroke-blue-500"
             x={0}
             y={0}
